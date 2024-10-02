@@ -1,3 +1,5 @@
+import { REPLACE_URL, URL_REPLACED } from "@shared/actions";
+
 let vscode = null;
 
 export function getVSCode() {
@@ -15,16 +17,15 @@ export function replaceUrl(originalUrl) {
   if (vscode) {
     return new Promise((resolve) => {
       vscode.postMessage({
-        type: 'replace-url',
+        type: REPLACE_URL,
         originalUrl,
       });
 
       const handler = (e) => {
         if (
-          e.data.type === 'url-replaced' &&
+          e.data.type === URL_REPLACED &&
           e.data.originalUrl === originalUrl
         ) {
-          // console.log('replaced', e.data);
           resolve(e.data.newUrl);
           window.removeEventListener('message', handler);
         }

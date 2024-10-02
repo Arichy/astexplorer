@@ -1,10 +1,14 @@
 import * as actions from './actions';
-import {getCategoryByID, getDefaultParser, getParserByID, getTransformerByID} from '../parsers';
+import {
+  getCategoryByID,
+  getDefaultParser,
+  getParserByID,
+  getTransformerByID,
+} from '../parsers';
 
 const defaultParser = getDefaultParser(getCategoryByID('javascript'));
 
 const initialState = {
-
   // UI related state
   showSettingsDialog: false,
   showSettingsDrawer: false,
@@ -44,6 +48,8 @@ const initialState = {
 
   enableFormatting: false,
 
+  filepath: '',
+  id: '',
 };
 
 /**
@@ -99,7 +105,25 @@ export function astexplorer(state=initialState, action) {
     parserSettings: parserSettings(state.parserSettings, action, state),
     workbench: workbench(state.workbench, action, state),
     enableFormatting: format(state.enableFormatting, action, state),
+
+    filepath: getFilepath(state.filepath, action),
+    id: getId(state.id, action),
   };
+}
+
+function getFilepath(filepath, action) {
+  if (action.type === actions.SET_FILEPATH) {
+    return action.filepath;
+  }
+  return filepath;
+}
+
+function getId(id, action) {
+  if (action.type === actions.SET_ID) {
+    return action.id;
+  }
+
+  return id;
 }
 
 function format(state=initialState.enableFormatting, action) {

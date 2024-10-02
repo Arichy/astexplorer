@@ -239,6 +239,25 @@ module.exports = Object.assign({
         },
       },
       {
+        test: /\.ts$/,
+        loader: 'babel-loader',
+        options: {
+          babelrc: false,
+          presets: [
+            [
+              require.resolve('@babel/preset-env'),
+              {
+                targets: {
+                  browsers: ['defaults'],
+                },
+                modules: 'commonjs',
+              },
+            ],
+            require.resolve('@babel/preset-typescript'),
+          ],
+        },
+      },
+      {
         test: /\.css$/,
         use: [
           DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
@@ -291,6 +310,13 @@ module.exports = Object.assign({
     filename: DEV ? '[name].js' : `[name]-[contenthash]-${CACHE_BREAKER}.js`,
     chunkFilename: DEV ? '[name].js' : `[name]-[contenthash]-${CACHE_BREAKER}.js`,
   },
+
+  resolve: {
+    alias: {
+      '@shared': path.resolve(__dirname, '../../shared')
+    },
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.json'],
+  }
 },
 
   DEV ?

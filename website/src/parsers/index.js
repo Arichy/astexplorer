@@ -4,9 +4,41 @@ function interopRequire(module) {
   return module.__esModule ? module.default : module;
 }
 
-const files =
-  localRequire.keys()
-  .map(name => name.split('/').slice(1));
+const supportedLanguages = [
+  'css',
+  'go',
+  'graphql',
+  'html',
+  'java',
+  'js',
+  'json',
+  'lua',
+  'markdown',
+  'php',
+  'python',
+  'regexp',
+  'rust',
+  'scala',
+  'sql',
+  'svelte',
+  'thrift',
+  'vue',
+  'yaml',
+];
+
+const files = localRequire
+  .keys()
+  .filter((name) => {
+    const pathSegments = name.split('/');
+    const language = pathSegments[1];
+
+    if (pathSegments.some((seg) => seg.startsWith('_'))) {
+      return false;
+    }
+
+    return supportedLanguages.includes(language);
+  })
+  .map((name) => name.split('/').slice(1));
 
 const categoryByID = {};
 const parserByID = {};

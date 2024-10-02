@@ -28,9 +28,37 @@ import parserMiddleware from './store/parserMiddleware';
 import snippetMiddleware from './store/snippetMiddleware.js';
 import transformerMiddleware from './store/transformerMiddleware';
 import cx from './utils/classnames.js';
+import { getVSCode, replaceUrl } from './utils/vscode.js';
 
 function resize() {
   publish('PANEL_RESIZE');
+}
+
+const vscode = getVSCode();
+if (vscode) {
+  // hack webpack's dynamic import script injection
+  const originalAppendChild = document.head.appendChild;
+  document.head.appendChild = (element) => {
+    if (element.tagName === 'SCRIPT' && element.src) {
+      const originalUrl = element.getAttribute('src');
+      replaceUrl(originalUrl).then((newUrl) => {
+        element.setAttribute('src', newUrl);
+        originalAppendChild.call(document.head, element);
+      });
+    }
+  };
+
+  // hack wasm fetch
+  const originalFetch = global.fetch;
+  global.fetch = (url, options) => {
+    if (url.startsWith("http")) {
+      return originalFetch(newUrl, options);
+    }
+
+    return replaceUrl(url).then((newUrl) => {
+      return originalFetch(newUrl, options);
+    });
+  };
 }
 
 function App({showTransformer, hasError}) {

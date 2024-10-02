@@ -26,3 +26,12 @@ export const readState = storage ?
     }
   } :
   noop;
+
+export const clearState = storage ? () => {
+  try {
+    storage.removeItem(key);
+  } catch(e) {
+    // eslint-disable-next-line no-console
+    console.warn('Unable to clear local storage.');
+  }
+} : noop;

@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import CategoryButton from './buttons/CategoryButton';
 import ParserButton from './buttons/ParserButton';
-import SnippetButton from './buttons/SnippetButton';
 import TransformButton from './buttons/TransformButton';
 import KeyMapButton from './buttons/KeyMapButton';
 
@@ -33,12 +32,9 @@ export default function Toolbar(props) {
 
   return (
     <div id="Toolbar">
-      <h1>AST Explorer</h1>
-      <SnippetButton {...props} />
       <CategoryButton {...props} />
       <ParserButton {...props} />
       <TransformButton {...props} />
-      <KeyMapButton {...props} />
       <a
         style={{minWidth: 0}}
         target="_blank" rel="noopener noreferrer"

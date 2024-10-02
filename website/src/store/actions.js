@@ -28,6 +28,8 @@ export const END_SAVE = 'END_SAVE';
 export const RESET = 'RESET';
 export const TOGGLE_FORMATTING = 'TOGGLE_FORMATTING';
 export const SET_KEY_MAP = 'SET_KEY_MAP';
+export const SET_FILEPATH = 'SET_FILEPATH';
+export const SET_ID = 'SET_ID';
 
 export function setParser(parser) {
   return {type: SET_PARSER, parser};
@@ -139,4 +141,12 @@ export function toggleFormatting() {
 
 export function setKeyMap(keyMap) {
   return {type: SET_KEY_MAP, keyMap}
+}
+
+export function setFilepath(filepath) {
+  return { type: SET_FILEPATH, filepath };
+}
+
+export function setId(id) {
+  return { type: SET_ID, id };
 }
